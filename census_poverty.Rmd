@@ -1,0 +1,345 @@
+---
+title: "Syracuse Poverty"
+author: "Sam Edelstein"
+date: "9/16/2018"
+output: html_document
+---
+
+#Poverty in Syracuse
+
+The City of Syracuse was recently cited as one of the top 10 poorest cities in the country by the US Census Bureau. The Census Bureau puts out a yearly survey of a sample of the population called the American Community Survey. They also put out a compiled American Community Survey that combines ACS data from the previous 5 years. The 1 year survey has information from fewer people so it doesn't get as granular as the 5 year survey, which often allows an analysis down to a census tract or census block group levels rather than only at a city-wide level.
+```{r setup, include=FALSE}
+library(censusapi)
+library(ggplot2)
+library(dplyr)
+library(maptools)
+library("gpclib")
+library('rgdal')
+library(scales)
+require(sf)
+library(tidyverse)
+library(rvest)
+
+Sys.setenv(CENSUS_KEY="6e16b11542b37f683e1a381a58b1a8172792c11b")
+apis <- listCensusApis()
+
+theme_map <- function(...) {
+  theme_minimal() +
+    theme(
+      text = element_text(family = "Arial", color = "#22211d"),
+      axis.line = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      # panel.grid.minor = element_line(color = "#ebebe5", size = 0.2),
+      panel.grid.major = element_line(color = "#ebebe5", size = 0.2),
+      panel.grid.minor = element_blank(),
+      plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+      panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+      legend.background = element_rect(fill = "#f5f5f2", color = NA),
+      panel.border = element_blank(),
+      ...
+    )
+}
+```
+
+## Percent of people in poverty in Syracuse since 2011 (ACS 1-yr)
+We can look at a history of poverty since the Census makes all of this data public. Here we can see that the City of Syracuse's poverty rate has fluctuated and has generally dropped, but remains in the mid-30s.
+
+```{r poverty history, echo=FALSE}
+p2017 <- getCensus(name="acs/acs1", vintage=2017,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                     vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                     region="place:*", regionin="state:36") %>%
+  mutate(year = "2017")
+p2016 <- getCensus(name="acs/acs1", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2016")
+p2015 <- getCensus(name="acs/acs1", vintage=2015,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2015")
+p2014 <- getCensus(name="acs/acs1", vintage=2014,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2014")
+p2013 <- getCensus(name="acs/acs1", vintage=2013,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2013")
+p2012 <- getCensus(name="acs/acs1", vintage=2012,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2012")
+p2011 <- getCensus(name="acs/acs1", vintage=2011,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B17001_001E", 'B17001_002E'), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(year = "2011")
+
+poverty_rate_chart <- rbind(p2011, p2012, p2013, p2014, p2015, p2016, p2017) %>%
+  filter(NAME == "Syracuse city, New York") %>%
+  mutate(poverty_rate = round((B17001_002E/B17001_001E)*100)) %>%
+  ggplot(aes(year, poverty_rate, group = 1)) +
+  geom_point() + 
+  geom_line() +
+  ylim(c(0,100)) +
+  labs(title = "Percent of poverty in Syracuse since 2011",
+       x = "Year",
+       y = "Poverty rate (%)")
+poverty_rate_chart
+```
+
+## Poverty by city in 2017
+We can also compare against other cities to benchmark. Here we can see that Syracuse has one of the highest poverty rates in the state.
+```{r poverty compared, echo=FALSE}
+poverty_city_chart <- rbind(p2011, p2012, p2013, p2014, p2015, p2016, p2017) %>%
+  filter(year == 2017) %>%
+  mutate(poverty_rate = round((B17001_002E/B17001_001E)*100)) %>%
+  ggplot(aes(reorder(NAME, poverty_rate), poverty_rate, group = 1)) +
+  geom_col() +
+  coord_flip() + 
+  ylim(c(0,100)) +
+  labs(title = "Poverty rates by city across New York State",
+       x = "City",
+       y = "Poverty Rate")
+poverty_city_chart
+```
+
+
+
+## Public Transportation History
+We can also look at specific measures, like how many people take public transportation - or even more detailed - how many people in poverty take public transportation.
+
+```{r public transportation poverty history, echo = FALSE}
+t2017 <- getCensus(name="acs/acs1", vintage=2017,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2017",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2016 <- getCensus(name="acs/acs1", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2016",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2015 <- getCensus(name="acs/acs1", vintage=2015,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2015",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2014 <- getCensus(name="acs/acs1", vintage=2014,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2014",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2013 <- getCensus(name="acs/acs1", vintage=2013,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2013",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2012 <- getCensus(name="acs/acs1", vintage=2012,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2012",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+t2011 <- getCensus(name="acs/acs1", vintage=2011,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="place:*", regionin="state:36") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2011",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100))
+
+poverty_pub_trans_chart <- rbind(t2017,t2016,t2015,t2014,t2013,t2012,t2011) %>%
+    filter(NAME == 'Syracuse city, New York') %>%
+  select(year, percent_poverty_pub_transp, percent_pub_transport) %>%
+  gather(key = percent_pub_transport, value = "number", -year) %>%
+  ggplot(aes(year, number, color = percent_pub_transport, group = percent_pub_transport)) +
+  geom_line() +
+  ylim(c(0,100)) +
+  scale_color_manual(labels = c("Percentage of people in poverty who take public transportation", "Percent of population that takes public transportation"), values = c("blue", "red")) +
+  labs(title = "Percent of people riding public transportation",
+       color = "Legend",
+       x = "Year",
+       y = "Percentage")
+
+  
+poverty_pub_trans_chart
+```
+
+## Public transportation by city
+And again we can compare by city
+
+```{r public transport city, echo = FALSE}
+city_transport <- t2017 %>%
+  select(NAME, percent_poverty_pub_transp, percent_pub_transport) %>%
+  gather(key = percent_pub_transport, value = "number", -NAME) %>%
+  filter(!is.na(number)) %>%
+  ggplot(aes(NAME, number, fill = percent_pub_transport)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  scale_fill_manual(labels = c("Percentage of people in poverty who take public transportation", "Percent of population that takes public transportation"), values = c("blue", "red")) +
+  labs(title = "Percent of people riding public transportation",
+       color = "Legend",
+       x = "City",
+       y = "Percentage")
+city_transport
+```
+
+## Map of public transportation ridership
+
+```{r public transportation map, echo = FALSE}
+census_tracts <- readOGR(".", "Census_Tracts_in_Syracuse_NY_2010")
+census_tracts@data$id <- row.names(census_tracts@data)
+map_data_fortified <- fortify(census_tracts) 
+fortified_join <- merge(map_data_fortified, census_tracts@data, by="id")
+
+
+pub_trans_tract <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
+                   region="tract:*", regionin="state:36+county:067") %>%
+  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
+  mutate(year = "2017",
+         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
+         percent_pub_transport = round((total_pub/total_trans)*100),
+         tractid = paste(state, county, tract, sep = ""))
+
+
+censusmerge <- merge(fortified_join, pub_trans_tract, by.x = "GEOID10", by.y = "tractid")
+censusmerge <- censusmerge[order(censusmerge$order),]
+
+poverty_pub_transport_map <- ggplot() +
+  geom_polygon(data = censusmerge, aes(x = long, y = lat, group = group, fill = percent_poverty_pub_transp), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map() 
+poverty_pub_transport_map
+
+```
+
+## Percent public transportation overall
+
+```{r, echo=FALSE}
+pub_transport_map<- ggplot() +
+  geom_polygon(data = censusmerge, aes(x = long, y = lat, group = group, fill = percent_pub_transport), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map() 
+pub_transport_map
+```
+
+
+
+## Percent of people with computer science or math degrees
+
+```{r compsci, echo = FALSE}
+comp_sci <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B15012_001E", "B15012_002E"), 
+                   region="tract:*", regionin="state:36+county:067") %>%
+  mutate(percent_comp_math = round((B15012_002E/B15012_001E)*100),
+         tractid = paste(state, county, tract, sep = ""))
+
+
+censusmerge_compsci <- merge(fortified_join, comp_sci, by.x = "GEOID10", by.y = "tractid")
+censusmerge_compsci <- censusmerge_compsci[order(censusmerge_compsci$order),]
+
+ggplot() +
+  geom_polygon(data = censusmerge_compsci, aes(x = long, y = lat, group = group, fill = percent_comp_math), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map() 
+
+```
+
+
+## No schooling by census tract
+
+```{r schooling, echo = FALSE}
+schooling <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME", "B01001_001E","B15003_001E", "B15003_002E", "B15003_003E", "B15003_004E", "B15003_005E",
+                          "B15003_006E","B15003_007E", "B15003_008E", "B15003_009E", "B15003_010E", "B15003_011E",
+                          "B15003_012E","B15003_013E", "B15003_014E", "B15003_015E", "B15003_016E", "B15003_017E",
+                          "B15003_018E","B15003_019E", "B15003_020E", "B15003_021E", "B15003_022E", "B15003_023E",
+                          "B15003_024E","B15003_025E"),
+                   region="tract:*", regionin="state:36+county:067") %>%
+  mutate(tractid = paste(state, county, tract, sep = ""),
+         percent_no_school= round((B15003_002E/B15003_001E)*100),
+         sum_less_then_hs = rowSums(select(., B15003_002E,B15003_003E, B15003_004E, B15003_005E, B15003_006E,
+                                           B15003_007E, B15003_008E, B15003_009E, B15003_010E, B15003_011E, B15003_012E)),
+         percent_less_hs = round((sum_less_then_hs/B15003_001E)*100),
+         sum_hs_no_degree = rowSums(select(., B15003_002E,B15003_003E, B15003_004E, B15003_005E, B15003_006E,
+                                           B15003_007E, B15003_008E, B15003_009E, B15003_010E, B15003_011E, B15003_012E, B15003_013E,B15003_014E,B15003_015E,B15003_016E)),
+         percent_no_hs_degree = round((sum_hs_no_degree/B15003_001E)*100))
+
+censusmerge_schooling <- merge(fortified_join, schooling, by.x = "GEOID10", by.y = "tractid")
+censusmerge_schooling <- censusmerge_schooling[order(censusmerge_schooling$order),]
+
+no_schooling_chart <- ggplot() +
+  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_no_school), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map() +
+  labs(title = "No schooling")
+no_schooling_chart
+
+
+
+```
+
+## Less than high school education
+
+```{r, echo = FALSE}
+less_than_hs_chart <- ggplot() +
+  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_less_hs), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map()  +
+  labs(title = "No HS")
+less_than_hs_chart
+```
+
+## No hs degree map
+
+```{r, echo = FALSE}
+no_hs_degree_chart <- ggplot() +
+  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_no_hs_degree), 
+               color = "black", size = 0.25) +
+  coord_fixed(1.3) +
+  scale_fill_continuous(low = "white", high = "red") +
+  theme_map() +
+  labs(title = "No HS Degree")
+no_hs_degree_chart
+```
+
