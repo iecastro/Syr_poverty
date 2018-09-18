@@ -377,8 +377,6 @@ no_hs_degree_chart
 ## Percentage of people with computers and internet connectivity
 
 ```{r connectivity, echo = FALSE}
-
-
 getCensus(name="acs/acs1/profile", vintage=2017,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
                    vars=c("NAME",'DP02_0150E',"DP02_0151E", "DP02_0152E"), 
                    region="place:*", regionin="state:36") %>%
@@ -404,7 +402,7 @@ panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), a
 ## Lived in the same house 1 year ago
 
 ```{r same house , echo=FALSE}
-
+probs <- c(0, 0.25, 0.5, 0.75, 1)
 same_house <- getCensus(name="acs/acs5", vintage=2016, key = "6e16b11542b37f683e1a381a58b1a8172792c11b", 
                          vars=c("NAME", "B07001_017E", 'B07001_018E','B07001_019E','B07001_001E', 'B07001_002E','B07001_003E'), 
                          region="tract:*", regionin="state:36+county:067") %>%
@@ -412,20 +410,22 @@ same_house <- getCensus(name="acs/acs5", vintage=2016, key = "6e16b11542b37f683e
          tot_below_18 = rowSums(select(., B07001_002E,B07001_003E)))  %>%
   mutate(percentage = round((tot_moved_below_18/tot_below_18)*100),
          tractid = paste(state, county, tract, sep = ""))
+quantiles <- quantile(same_house$percentage, prob=probs, na.rm = TRUE)
+same_house$quant <- factor(findInterval(same_house$percentage,quantiles))
 
 censusmerge_same_house <- merge(fortified_join, same_house, by.x = "GEOID10", by.y = "tractid")
 censusmerge_same_house <- censusmerge_same_house[order(censusmerge_same_house$order),]
 
 same_house_map <- ggplot() +
-  geom_polygon(data = censusmerge_same_house, aes(x = long, y = lat, group = group, fill = percentage), 
+  geom_polygon(data = censusmerge_same_house, aes(x = long, y = lat, group = group, fill = quant), 
                color = NA, size = 0.25) +
-  geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "grey") + 
+  geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "darkgrey") + 
   coord_fixed(1.3) +
-  scale_fill_continuous(low = "white", high = "tomato") +
   theme_map() +
+  scale_fill_brewer(palette = "Blues") +
   labs(title = "Same house")
-
 same_house_map
 
 ```
+
 
