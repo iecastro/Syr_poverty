@@ -1,15 +1,19 @@
 ---
 title: "Syracuse Poverty"
-output: github_document
+author: "Sam Edelstein"
+date: "9/16/2018"
+output: html_document
 ---
 
 #Poverty in Syracuse
 
+The City of Syracuse was recently cited as one of the top 10 poorest cities in the country by the US Census Bureau. The Census Bureau puts out a yearly survey of a sample of the population called the American Community Survey. They also put out a compiled American Community Survey that combines ACS data from the previous 5 years. The 1 year survey has information from fewer people so it doesn't get as granular as the 5 year survey, which often allows an analysis down to a census tract or census block group levels rather than only at a city-wide level.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  fig.path = "README_figs/README-",
+  fig.path = "Post_figs/census_poverty-",
   message = FALSE,
   warning = FALSE)
+
 
 library(tidycensus)
 library(tidyverse)
@@ -17,9 +21,6 @@ library(scales)
 require(sf)
 library(rvest)
 
-
-Sys.getenv("CENSUS_API_KEY")
-options(tigris_class = "sf", tigris_use_cache = TRUE)
 
 theme_map <- function(...) {
   theme_minimal() +
@@ -44,7 +45,7 @@ theme_map <- function(...) {
 ```
 
 ## Percent of people in poverty in Syracuse since 2011 (ACS 1-yr)
-
+We can look at a history of poverty since the Census makes all of this data public. Here we can see that the City of Syracuse's poverty rate has fluctuated and has generally dropped, but remains in the mid-30s.
 
 ```{r poverty history, echo=FALSE}
 
@@ -53,38 +54,51 @@ years <- unique(2012:2017)
 
 poverty <- map_df(years, function(x){
   get_acs(geography = "place",variables = vars, state = "NY",survey = "acs1", year = x, output = "wide") %>%
-    mutate(year = x, poverty_pct = (B17001_002E/B17001_001E))
+    mutate(year = x, poverty_rate = round((B17001_002E/B17001_001E)*100))
 }) 
 
 poverty %>% filter(NAME == "Syracuse city, New York") %>% 
-  ggplot(aes(year, poverty_pct)) +
+  ggplot(aes(year, poverty_rate)) +
   geom_point() + 
-  geom_line() + scale_y_continuous(labels = scales::percent) +
-  labs(title = "Percent of population with annual income \nbelow the poverty level", subtitle = "Syracuse, NY",
-       x = "Year", 
-       y = " ") +
+  geom_line() +
+  ylim(c(0,100)) +
+  labs(title = "Percent of poverty in Syracuse since 2012",
+       x = "Year",
+       y = "Poverty rate (%)") +
   theme_minimal()
 
 ```
 
 ## Poverty by city in 2017
-
-
+We can also compare against other cities to benchmark. Here we can see that Syracuse has one of the highest poverty rates in the state.
 ```{r poverty compared, echo=FALSE}
 
 poverty %>% filter(year == 2017) %>% 
-  mutate(ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no")) %>%
-  ggplot(aes(reorder(NAME, poverty_pct), poverty_pct, fill = ToHighlight)) + geom_col() +  scale_fill_manual(values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) + coord_flip() +
-  scale_y_continuous(labels = scales::percent) + 
-  labs(title = "Population in poverty by city", x = "", y = "") +
-   theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
+  mutate(poverty_rate = round((B17001_002E/B17001_001E)*100),
+         ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no") ) %>%
+  ggplot(aes(reorder(NAME, poverty_rate), poverty_rate, fill = ToHighlight)) +
+  geom_col() +
+  coord_flip() + 
+  ylim(c(0,100)) +
+  scale_fill_manual( values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) +
+  geom_text(aes(label=paste(poverty_rate, "%", sep = ""), hjust=1.25))+
+  labs(title = "Poverty rates by city across New York State",
+       x = "",
+       y = "") +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+          axis.title.x=element_blank())
 
 ```
 
 
+
 ## Public Transportation History
+We can also look at specific measures, like how many people take public transportation - or even more detailed - how many people in poverty take public transportation.
 
 ```{r public transportation poverty history, echo = FALSE}
+
 vars2 <- c(total_pop = "B01001_001E", total_pub_trans = "B08119_028E", total_pub_trans_1_9999 = "B08119_029E", total_pub_trans_10k_14999 = "B08119_030E", total_pub_trans_15k_24999 = "B08119_031E", total_trans = "B08101_001E", total_pub = "B08101_025E")
 
 transpo <- map_df(years, function(x){
@@ -101,40 +115,39 @@ transpo %>%
   gather(key = percent_pub_transport, value = "number", -year) %>%
   ggplot(aes(year, number, color = percent_pub_transport, group = percent_pub_transport)) +
   geom_line() +
- scale_color_manual(labels = c("People in \npoverty utilizing \npublic transportation", "Percent of total population \nutilizing \npublic transportation"), values = c("tomato", "blue")) +
+ scale_color_manual(labels = c("People in \npoverty utilizing \npublic transportation", "Percent of population \nutilizing \npublic transportation"), values = c("tomato", "blue")) +
   scale_y_continuous(labels = scales::percent) +
   labs(title = "Use of public transportation by those in poverty",
-       color = " ", x = " ", y = "") +
-  theme_minimal() + theme(axis.text = element_text(color = "black"))
+       color = "Legend", x = "Year", y = "") +
+  theme_minimal()
 
 ```
 
 ## Public transportation by city
-
+And again we can compare by city
 
 ```{r public transport city, echo = FALSE}
-
 transpo %>% filter(year == 2017) %>% 
   select(NAME, percent_poverty_pub_transp, percent_pub_transport) %>%
-  gather(key = percent_pub_transport, value = "number", -NAME) %>% 
-  mutate(group = ifelse((percent_pub_transport == "percent_poverty_pub_transp"), "In poverty", "Total Population")) %>%
+  gather(key = percent_pub_transport, value = "number", -NAME) %>%
   filter(!is.na(number)) %>%
   mutate( ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no" ) ) %>%
   ggplot(aes(NAME, number, fill = ToHighlight)) +
-  geom_col() +
+  geom_col(position = "dodge") +
+  geom_text(aes(label=paste(number, "%", sep = ""), hjust=-.25))+
   coord_flip() +
   scale_fill_manual( values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) + scale_y_continuous(labels = scales::percent) +
-  labs(subtitle = "Percent of people riding public transportation",
+  labs(title = "Percent of people riding public transportation",
        color = "Legend",
-       x = " ",
+       x = "City",
        y = " ") +
-  facet_grid(.~group, scales = "free_x") +
-  theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
+  facet_wrap(~percent_pub_transport) +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+          axis.title.x=element_blank())
 
 ```
-
-
-### CONTINUE HERE ###
 
 ## Map of public transportation ridership
 
@@ -335,5 +348,4 @@ same_house_map <- ggplot() +
 same_house_map
 
 ```
-
 

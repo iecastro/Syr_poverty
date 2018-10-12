@@ -1,0 +1,6 @@
+"0","poverty %>% filter(year == 2017) %>% "
+"0","  mutate(ToHighlight = ifelse( NAME == ""Syracuse city, New York"", ""yes"", ""no"")) %>%"
+"0","  ggplot(aes(reorder(NAME, poverty_pct), poverty_pct, fill = ToHighlight)) + geom_col() +  scale_fill_manual(values = c( ""yes""=""tomato"", ""no""=""gray"" ), guide = FALSE ) + coord_flip() +"
+"0","  scale_y_continuous(labels = scales::percent) + "
+"0","  labs(title = ""Population in popverty by city"", x = """", y = """") +"
+"0","   theme_minimal() + theme(axis.text = element_text(color = ""black""),panel.grid.major.x	= element_line(color = ""black""))"
