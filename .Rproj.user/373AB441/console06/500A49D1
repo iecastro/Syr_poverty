@@ -384,4 +384,69 @@ hunks.json (84%)[0K
 [0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
 [0m[0K
 $[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25hA[0K[?25l
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/prop/D17A3CD9.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BF0AD223/4C075CB.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BF0AD223/4C075CB-contents.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/csetu[0Kp[?25l
+_chunk/000002.csv.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25ho[0K[?25lm[0K[9G[?25h[10G[?25l$ git comm[0K[?25hi[0Kt[0K[14G[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hs[0Ki[0Km[0Kp[0Kl[0Ki[0Kf[0Ky[0K[27G[?25l$ git commit -m "simplify s[0K[?25hp[0Ka[0Kt[0Ki[0Ka[0Kl[0K[35G[?25l$ git commit -m "simplify spatial d[0K[?25ha[0Kt[0Ka[0K[40G[?25l$ git commit -m "simplify spatial data /[0K[?25h[42G[?25l$ git commit -m "simplify spatial data / t[0K[?25hr[0Ka[0Kn[0Ks[0Kp[0Ko[0K[50G[?25l$ git commit -m "simplify spatial data / transpo &[0K[?25h[52G[?25l$ git commit -m "simplify spatial data / transpo & C[0K[?25hS[0K[55G[?25l$ git commit -m "simplify spatial data / transpo & CS m[0K[?25ha[0Kp[0Ks[0K"[0K[?25l
+[0K[?25h[master 19edcd5] simplify spatial data / transpo & CS maps[0K[?25l
+ 32 files changed, 148 insertions(+), 141 deletions(-)[0K
+ rename .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/{cufq7kn6u20fb/000009.metadata => ca1[0Kw
+ybnp8qh1e/00003b.metadata} (100%)[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ca1wybnp8qh1e/00003b.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ca1wybnp8qh1e/00003b.snap[0Ks
+hot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cct40e25nec10/000016.meta[0Kd
+ata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cct40e25nec10/000016.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cct40e25nec10/000016.snap[0Ks
+hot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ceag9fatur6ir/000006.meta[0Kd
+ata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ceag9fatur6ir/000006.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ceag9fatur6ir/000006.snap[0Ks
+hot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cufq7kn6u20fb/000007.meta[0Kd
+ata[0K
+ rename .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cufq7kn6u20fb/{000009.png => 000007.p[0Kn
+g} (100%)[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cufq7kn6u20fb/000007.snap[0Ks
+hot[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cufq7kn6u20fb/000009.snap[0Ks
+hot[0K
+ delete mode 100644 Census_Tracts_in_Syracuse_NY_2010.cpg[0K
+ delete mode 100644 Census_Tracts_in_Syracuse_NY_2010.dbf[0K
+ delete mode 100644 Census_Tracts_in_Syracuse_NY_2010.prj[0K
+ delete mode 100644 Census_Tracts_in_Syracuse_NY_2010.shp[0K
+ delete mode 100644 Census_Tracts_in_Syracuse_NY_2010.shx[0K
+ rename City_Streets_2011.cpg => shapefile/City_Streets_2011.cpg (100%)[0K
+ rename City_Streets_2011.dbf => shapefile/City_Streets_2011.dbf (100%)[0K
+ rename City_Streets_2011.prj => shapefile/City_Streets_2011.prj (100%)[0K
+ rename City_Streets_2011.shp => shapefile/City_Streets_2011.shp (100%)[0K
+ rename City_Streets_2011.shx => shapefile/City_Streets_2011.shx (100%)[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l
+[0K[?25h[?25lEnumerating objects: 54[0K[1G[?25hEnumerating objects: 78, done.[0K[?25l
+[0K[?25h[?25lCounting objects:   1% (1/78)[0K[1G[?25h[?25lCounting objects:   2% (2/78)[0K[1G[?25h[?25lCounting objects:   5% (4/78)[0K[1G[?25h[?25lCounting objects:   7% (6/78)[0K[1G[?25h[?25lCounting objects:  10% (8/78)[0K[1G[?25h[?25lCounting objects:  14% (11/78)[0K[1G[?25h[?25lCounting objects:  16% (13/78)[0K[1G[?25h[?25lCounting objects:  20% (16/78)[0K[1G[?25h[?25lCounting objects:  21% (17/78)[0K[1G[?25h[?25lCounting objects:  25% (20/78)[0K[1G[?25h[?25lCounting objects:  29% (23/78)[0K[1G[?25h[?25lCounting objects:  32% (25/78)[0K[1G[?25h[?25lCounting objects:  34% (27/78)[0K[1G[?25h[?25lCounting objects:  35% (28/78)[0K[1G[?25h[?25lCounting objects:  39% (31/78)[0K[1G[?25h[?25lCounting objects:  43% (34/78)[0K[1G[?25h[?25lCounting objects:  44% (35/78)[0K[1G[?25h[?25lCounting objects:  47% (37/78)[0K[1G[?25h[?25lCounting objects:  50% (39/78)[0K[1G[?25h[?25lCounting objects:  53% (42/78)[0K[1G[?25h[?25lCounting objects:  55% (43/78)[0K[1G[?25h[?25lCounting objects:  57% (45/78)[0K[1G[?25h[?25lCounting objects:  61% (48/78)[0K[1G[?25h[?25lCounting objects:  62% (49/78)[0K[1G[?25h[?25lCounting objects:  66% (52/78)[0K[1G[?25h[?25lCounting objects:  70% (55/78)[0K[1G[?25h[?25lCounting objects:  73% (57/78)[0K[1G[?25h[?25lCounting objects:  74% (58/78)[0K[1G[?25h[?25lCounting objects:  75% (59/78)[0K[1G[?25h[?25lCounting objects:  78% (61/78)[0K[1G[?25h[?25lCounting objects:  80% (63/78)[0K[1G[?25h[?25lCounting objects:  82% (64/78)[0K[1G[?25h[?25lCounting objects:  85% (67/78)[0K[1G[?25h[?25lCounting objects:  88% (69/78)[0K[1G[?25h[?25lCounting objects:  89% (70/78)[0K[1G[?25h[?25lCounting objects:  92% (72/78)[0K[1G[?25h[?25lCounting objects:  94% (74/78)[0K[1G[?25h[?25lCounting objects:  97% (76/78)[0K[1G[?25hCounting objects: 100% (78/78), done.[0K[?25l
+Delta compression using up to 4 threads.[0K
+Compressing objects:   3% (2/51)[0K[1G[?25h[?25lCompressing objects:   9% (5/51)[0K[1G[?25h[?25lCompressing objects:  15% (8/51)[0K[1G[?25h[?25lCompressing objects:  17% (9/51)[0K[1G[?25h[?25lCompressing objects:  19% (10/51)[0K[1G[?25h[?25lCompressing objects:  25% (13/51)[0K[1G[?25h[?25lCompressing objects:  31% (16/51)[0K[1G[?25h[?25lCompressing objects:  35% (18/51)[0K[1G[?25h[?25lCompressing objects:  39% (20/51)[0K[1G[?25h[?25lCompressing objects:  43% (22/51)[0K[1G[?25h[?25lCompressing objects:  45% (23/51)[0K[1G[?25h[?25lCompressing objects:  49% (25/51)[0K[1G[?25h[?25lCompressing objects:  50% (26/51)[0K[1G[?25h[?25lCompressing objects:  52% (27/51)[0K[1G[?25h[?25lCompressing objects:  54% (28/51)[0K[1G[?25h[?25lCompressing objects:  56% (29/51)[0K[1G[?25h[?25lCompressing objects:  58% (30/51)[0K[1G[?25h[?25lCompressing objects:  60% (31/51)[0K[1G[?25h[?25lCompressing objects:  64% (33/51)[0K[1G[?25h[?25lCompressing objects:  68% (35/51)[0K[1G[?25h[?25lCompressing objects:  70% (36/51)[0K[1G[?25h[?25lCompressing objects:  74% (38/51)[0K[1G[?25h[?25lCompressing objects:  76% (39/51)[0K[1G[?25h[?25lCompressing objects:  80% (41/51)[0K[1G[?25h[?25lCompressing objects:  82% (42/51)[0K[1G[?25h[?25lCompressing objects:  84% (43/51)[0K[1G[?25h[?25lCompressing objects:  86% (44/51)[0K[1G[?25h[?25lCompressing objects:  90% (46/51)[0K[1G[?25h[?25lCompressing objects:  94% (48/51)[0K[1G[?25h[?25lCompressing objects:  96% (49/51)[0K[1G[?25h[?25lCompressing objects:  98% (50/51)[0K[1G[?25h[?25lCompressing objects: 100% (51/51)[0K[1G[?25hCompressing objects: 100% (51/51), done.[0K[?25l
+Writing objects:   4% (3/61)[0K[1G[?25h[?25lWriting objects:   6% (4/61)[0K[1G[?25h[?25lWriting objects:   8% (5/61)[0K[1G[?25h[?25lWriting objects:   9% (6/61)[0K[1G[?25h[?25lWriting objects:  18% (11/61)[0K[1G[?25h[?25lWriting objects:  22% (14/61)[0K[1G[?25h[?25lWriting objects:  27% (17/61)[0K[1G[?25h[?25lWriting objects:  32% (20/61)[0K[1G[?25h[?25lWriting objects:  39% (24/61)[0K[1G[?25h[?25lWriting objects:  44% (27/61)[0K[1G[?25h[?25lWriting objects:  50% (31/61)[0K[1G[?25h[?25lWriting objects:  54% (33/61)[0K[1G[?25h[?25lWriting objects:  55% (34/61)[0K[1G[?25h[?25lWriting objects:  55% (34/61), 984.00 KiB | 243.00 KiB/s[0K[1G[?25h[?25lWriting objects:  59% (36/61), 1.11 MiB | 249.00 KiB/s[0K[1G[?25h[?25lWriting objects:  60% (37/61), 1.11 MiB | 249.00 KiB/s[0K[1G[?25h[?25lWriting objects:  60% (37/61), 1.55 MiB | 258.00 KiB/s[0K[1G[?25h[?25lWriting objects:  62% (38/61), 1.69 MiB | 259.00 KiB/s[0K[1G[?25h[?25lWriting objects:  67% (41/61), 1.69 MiB | 259.00 KiB/s[0K[1G[?25h[?25lWriting objects:  72% (44/61), 1.83 MiB | 261.00 KiB/s[0K[1G[?25h[?25lWriting objects:  80% (49/61), 1.83 MiB | 261.00 KiB/s[0K[1G[?25h[?25lWriting objects:  88% (54/61), 1.83 MiB | 261.00 KiB/s[0K[1G[?25h[?25lWriting objects:  93% (57/61), 1.83 MiB | 261.00 KiB/s[0K[1G[?25hWriting objects: 100% (61/61), 1.88 MiB | 250.00 KiB/s, done.[0K[?25l
+Total 61 (delta 17), reused 0 (delta 0)[0K
+[0K[?25hremote: Resolving deltas: 100% (17/17), completed with 8 local objects.[0K[?25l
+[0K[?25hTo https://github.com/iecastro/Syr_poverty.git[0K[?25l
+   7234d46..19edcd5  master -> master[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+$[0K[3G[?25h[?25l$ git push[0K[3G[?25h[12G[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25hA[0K[?25l
 [0K[?25h

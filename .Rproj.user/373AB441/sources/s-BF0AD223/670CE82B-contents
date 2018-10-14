@@ -1,0 +1,195 @@
+---
+title: "Syracuse Poverty"
+output: github_document
+---
+
+#Poverty in Syracuse
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "post_figs/census_poverty-",
+  message = FALSE,
+  warning = FALSE)
+
+library(tidycensus)
+library(tidyverse)
+library(scales)
+require(sf)
+library(rvest)
+
+
+Sys.getenv("CENSUS_API_KEY")
+options(tigris_class = "sf", tigris_use_cache = TRUE)
+
+theme_map <- function(...) {
+  theme_minimal() +
+    theme(
+      text = element_text(family = "Arial", color = "#22211d"),
+      axis.line = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      # panel.grid.minor = element_line(color = "#ebebe5", size = 0.2),
+      panel.grid.major = element_line(color = "#ebebe5", size = 0.2),
+      panel.grid.minor = element_blank(),
+      plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+      panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+      legend.background = element_rect(fill = "#f5f5f2", color = NA),
+      panel.border = element_blank(),
+      ...
+    )
+}
+```
+
+## Percent of people in poverty in Syracuse since 2011 (ACS 1-yr)
+
+
+```{r poverty history, echo=FALSE}
+
+vars <- c("B01001_001E","B17001_001E",'B17001_002E')
+years <- unique(2012:2017)
+
+poverty <- map_df(years, function(x){
+  get_acs(geography = "place",variables = vars, state = "NY",survey = "acs1", year = x, output = "wide") %>%
+    mutate(year = x, poverty_pct = (B17001_002E/B17001_001E))
+}) 
+
+poverty %>% filter(NAME == "Syracuse city, New York") %>% 
+  ggplot(aes(year, poverty_pct)) +
+  geom_point() + 
+  geom_line() + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Percent of population with annual income \nbelow the poverty level", subtitle = "Syracuse, NY",
+       x = "Year", 
+       y = " ") +
+  theme_minimal()
+
+```
+
+## Poverty by city in 2017
+
+
+```{r poverty compared, echo=FALSE}
+
+poverty %>% filter(year == 2017) %>% 
+  mutate(ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no")) %>%
+  ggplot(aes(reorder(NAME, poverty_pct), poverty_pct, fill = ToHighlight)) + geom_col() +  scale_fill_manual(values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) + coord_flip() +
+  scale_y_continuous(labels = scales::percent) + 
+  labs(title = "Population in poverty by city", x = "", y = "") +
+   theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
+
+```
+
+
+## Public Transportation History
+
+```{r public transportation poverty history, echo = FALSE}
+vars2 <- c(total_pop = "B01001_001E", total_pub_trans = "B08119_028E", total_pub_trans_1_9999 = "B08119_029E", total_pub_trans_10k_14999 = "B08119_030E", total_pub_trans_15k_24999 = "B08119_031E", total_trans = "B08101_001E", total_pub = "B08101_025E")
+
+transpo <- map_df(years, function(x){
+  get_acs(geography = "place",variables = vars2, state = "NY",survey = "acs1", year = x, output = "wide") %>%
+    mutate(year = x,poverty_pub_transp = total_pub_trans_1_9999 + total_pub_trans_10k_14999 + total_pub_trans_15k_24999,
+         percent_poverty_pub_transp = poverty_pub_transp/total_pub, 
+         percent_pub_transport = total_pub/total_trans)
+}) 
+
+
+transpo %>%
+    filter(NAME == 'Syracuse city, New York') %>%
+  select(year, percent_poverty_pub_transp, percent_pub_transport) %>%
+  gather(key = percent_pub_transport, value = "number", -year) %>%
+  ggplot(aes(year, number, color = percent_pub_transport, group = percent_pub_transport)) +
+  geom_line() +
+ scale_color_manual(labels = c("People in \npoverty utilizing \npublic transportation", "Percent of total population \nutilizing \npublic transportation"), values = c("tomato", "blue")) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Use of public transportation by those in poverty",
+       color = " ", x = " ", y = "") +
+  theme_minimal() + theme(axis.text = element_text(color = "black"))
+
+```
+
+## Public transportation by city
+
+
+```{r public transport city, echo = FALSE}
+
+transpo %>% filter(year == 2017) %>% 
+  select(NAME, percent_poverty_pub_transp, percent_pub_transport) %>%
+  gather(key = percent_pub_transport, value = "number", -NAME) %>% 
+  mutate(group = ifelse((percent_pub_transport == "percent_poverty_pub_transp"), "In poverty", "Total Population")) %>%
+  filter(!is.na(number)) %>%
+  mutate( ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no" ) ) %>%
+  ggplot(aes(NAME, number, fill = ToHighlight)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual( values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) + scale_y_continuous(labels = scales::percent) +
+  labs(subtitle = "Percent of people riding public transportation",
+       color = "Legend",
+       x = " ",
+       y = " ") +
+  facet_grid(.~group, scales = "free_x") +
+  theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
+
+```
+
+
+## Map of public transportation ridership
+
+```{r public transportation map, echo = FALSE, fig.height= 8, fig.width=10}
+
+streets <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/City_Streets_2011.shp")
+                   
+transpo_tracts <- get_acs(geography = "tract", variables = vars2, year = 2016,
+                        county = "Onondaga", state = "NY", output = "wide",
+                        geometry = TRUE) %>%
+                 filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(poverty_pub_transp = total_pub_trans_1_9999 + total_pub_trans_10k_14999 + total_pub_trans_15k_24999,percent_poverty_pub_transp = poverty_pub_transp/total_pub, 
+         percent_pub_transport = total_pub/total_trans)
+             
+
+ggplot() + 
+  geom_sf(data = transpo_tracts, aes(fill = percent_poverty_pub_transp,  color=percent_poverty_pub_transp)) +
+  geom_sf(data = streets, size = .25) +
+  scale_fill_viridis_c(option = "magma", labels=scales::percent) + 
+  scale_color_viridis_c(option = "magma") + 
+  guides(fill=guide_legend(title="% of residents in poverty \nutilizing public transportation"), color = FALSE) +
+  theme_map()
+
+```
+
+## Percent public transportation overall
+
+```{r, echo=FALSE, fig.height= 8, fig.width=10}
+ggplot() + geom_sf(data = transpo_tracts, 
+                   aes(fill = percent_pub_transport)) +
+  geom_sf(data = streets, size = .25) +
+  scale_fill_viridis_c(option = "magma", labels=scales::percent) + 
+  guides(fill=guide_legend(title="% of residents \nutilizing public transportation")) +
+  theme_map()
+```
+
+
+
+## Percent of people with computer science or math degrees
+
+```{r compsci, echo = FALSE, fig.height= 8, fig.width=10}
+CSvars <- c("B01001_001E","B15012_001E", "B15012_002E")
+
+comp_sci <- get_acs(geography = "tract", variables = CSvars,
+                    county = "Onondaga", state = "NY",output = "wide", geometry = TRUE) %>%
+         filter(as.numeric(GEOID) < 36067006104) %>% 
+         mutate(percent_comp_math = B15012_002E/B15012_001E)
+
+ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percent_comp_math)) +
+  geom_sf(data = streets, size = .20) +
+  scale_fill_viridis_c(option = "plasma", labels=scales::percent) +
+  scale_color_viridis_c(option = "plasma") +
+  guides(fill=guide_legend(title="% of residents with \nCS or math degree"), color = FALSE) +
+  theme_minimal() + theme(axis.text = element_blank())
+
+```
+
+## continue here from original file 
+## No schooling by census tract
+

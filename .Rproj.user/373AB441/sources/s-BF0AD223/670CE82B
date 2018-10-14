@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1539546972844.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2792725748",
+    "id" : "670CE82B",
+    "lastKnownWriteTime" : 1539547032,
+    "last_content_update" : 1539547032624,
+    "path" : "~/Desktop/DataProjects/Syr_poverty/rendered.Rmd",
+    "project_path" : "rendered.Rmd",
+    "properties" : {
+        "cursorPosition" : "194,0",
+        "scrollLine" : "191"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
