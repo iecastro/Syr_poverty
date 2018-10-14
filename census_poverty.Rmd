@@ -89,7 +89,7 @@ vars2 <- c(total_pop = "B01001_001E", total_pub_trans = "B08119_028E", total_pub
 
 transpo <- map_df(years, function(x){
   get_acs(geography = "place",variables = vars2, state = "NY",survey = "acs1", year = x, output = "wide") %>%
-    mutate(year = x,poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
+    mutate(year = x,poverty_pub_transp = total_pub_trans_1_9999 + total_pub_trans_10k_14999 + total_pub_trans_15k_24999,
          percent_poverty_pub_transp = poverty_pub_transp/total_pub, 
          percent_pub_transport = total_pub/total_trans)
 }) 
@@ -134,85 +134,59 @@ transpo %>% filter(year == 2017) %>%
 ```
 
 
-### CONTINUE HERE ###
-
 ## Map of public transportation ridership
 
-```{r public transportation map, echo = FALSE}
-list.files('/Users/samedelstein/city_of_syracuse_poverty', pattern='\\.shp$')
-census_tracts <- readOGR(dsn=path.expand("/Users/samedelstein/city_of_syracuse_poverty"), "Census_Tracts_in_Syracuse_NY_2010")
-census_tracts@data$id <- row.names(census_tracts@data)
-map_data_fortified <- fortify(census_tracts) 
-fortified_join <- merge(map_data_fortified, census_tracts@data, by="id")
+```{r public transportation map, echo = FALSE, fig.height= 8, fig.width=10}
 
-streets <- readOGR(dsn=path.expand("/Users/samedelstein/city_of_syracuse_poverty"), "City_Streets_2011")
-streets@data$id <- row.names(streets@data)
-streets_data_fortified <- fortify(streets) 
-streets_fortified_join <- merge(streets_data_fortified, streets@data, by="id")
+streets <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/City_Streets_2011.shp")
+                   
+transpo_tracts <- get_acs(geography = "tract", variables = vars2, year = 2016,
+                        county = "Onondaga", state = "NY", output = "wide",
+                        geometry = TRUE) %>%
+                 filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(poverty_pub_transp = total_pub_trans_1_9999 + total_pub_trans_10k_14999 + total_pub_trans_15k_24999,percent_poverty_pub_transp = poverty_pub_transp/total_pub, 
+         percent_pub_transport = total_pub/total_trans)
+             
 
-pub_trans_tract <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
-                   vars=c("NAME", "B01001_001E","B08119_028E", "B08119_029E", "B08119_030E", "B08119_031E", "B08101_001E", 'B08101_025E'), 
-                   region="tract:*", regionin="state:36+county:067") %>%
-  rename("total_pop" = B01001_001E, "total_pub_trans" = B08119_028E, "total_pub_trans_1_9999" = B08119_029E, "total_pub_trans_10k_14999" = B08119_030E, "total_pub_trans_15k_24999" = B08119_031E, "total_trans" = B08101_001E, "total_pub" = B08101_025E) %>%
-  mutate(year = "2017",
-         poverty_pub_transp = rowSums(select(., total_pub_trans_1_9999,total_pub_trans_10k_14999, total_pub_trans_15k_24999)),
-         percent_poverty_pub_transp = round((poverty_pub_transp/total_pub)*100),
-         percent_pub_transport = round((total_pub/total_trans)*100),
-         tractid = paste(state, county, tract, sep = ""))
-
-
-censusmerge <- merge(fortified_join, pub_trans_tract, by.x = "GEOID10", by.y = "tractid")
-censusmerge <- censusmerge[order(censusmerge$order),]
-
-poverty_pub_transport_map <- ggplot() +
-  geom_polygon(data = censusmerge, aes(x = long, y = lat, group = group, fill = percent_poverty_pub_transp), 
-               color =NA, size = 0.25) +
-      geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "black") + 
-
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
-  theme_map() 
-poverty_pub_transport_map
+ggplot() + 
+  geom_sf(data = transpo_tracts, aes(fill = percent_poverty_pub_transp,  color=percent_poverty_pub_transp)) +
+  geom_sf(data = streets, size = .25) +
+  scale_fill_viridis_c(option = "magma", labels=scales::percent) + 
+  scale_color_viridis_c(option = "magma") + 
+  guides(fill=guide_legend(title="% of residents in poverty \nutilizing public transportation"), color = FALSE) +
+  theme_map()
 
 ```
 
 ## Percent public transportation overall
 
-```{r, echo=FALSE}
-pub_transport_map<- ggplot() +
-  geom_polygon(data = censusmerge, aes(x = long, y = lat, group = group, fill = percent_pub_transport), 
-               color = NA, size = 0.25) +
-    geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "black") + 
-
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
-  theme_map() 
-pub_transport_map
+```{r, echo=FALSE, fig.height= 8, fig.width=10}
+ggplot() + geom_sf(data = transpo_tracts, 
+                   aes(fill = percent_pub_transport)) +
+  geom_sf(data = streets, size = .25) +
+  scale_fill_viridis_c(option = "magma", labels=scales::percent) + 
+  guides(fill=guide_legend(title="% of residents \nutilizing public transportation")) +
+  theme_map()
 ```
 
 
 
 ## Percent of people with computer science or math degrees
 
-```{r compsci, echo = FALSE}
-comp_sci <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
-                   vars=c("NAME", "B01001_001E","B15012_001E", "B15012_002E"), 
-                   region="tract:*", regionin="state:36+county:067") %>%
-  mutate(percent_comp_math = round((B15012_002E/B15012_001E)*100),
-         tractid = paste(state, county, tract, sep = ""))
+```{r compsci, echo = FALSE, fig.height= 8, fig.width=10}
+CSvars <- c("B01001_001E","B15012_001E", "B15012_002E")
 
+comp_sci <- get_acs(geography = "tract", variables = CSvars,
+                    county = "Onondaga", state = "NY",output = "wide", geometry = TRUE) %>%
+         filter(as.numeric(GEOID) < 36067006104) %>% 
+         mutate(percent_comp_math = B15012_002E/B15012_001E)
 
-censusmerge_compsci <- merge(fortified_join, comp_sci, by.x = "GEOID10", by.y = "tractid")
-censusmerge_compsci <- censusmerge_compsci[order(censusmerge_compsci$order),]
-
-ggplot() +
-  geom_polygon(data = censusmerge_compsci, aes(x = long, y = lat, group = group, fill = percent_comp_math), 
-               color = NA, size = 0.25) +
-    geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "grey") + 
-
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
-  theme_map() 
+ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percent_comp_math)) +
+  geom_sf(data = streets, size = .20) +
+  scale_fill_viridis_c(option = "plasma", labels=scales::percent) +
+  scale_color_viridis_c(option = "plasma") +
+  guides(fill=guide_legend(title="% of residents with \nCS or math degree"), color = FALSE) +
+  theme_minimal() + theme(axis.text = element_blank())
 
 ```
 
