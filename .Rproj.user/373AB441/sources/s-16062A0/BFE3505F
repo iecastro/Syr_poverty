@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1540141458009.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4110158155",
+    "id" : "BFE3505F",
+    "lastKnownWriteTime" : 1540144299,
+    "last_content_update" : 1540144301048,
+    "path" : "~/Desktop/DataProjects/Syr_poverty/census_poverty.Rmd",
+    "project_path" : "census_poverty.Rmd",
+    "properties" : {
+        "cursorPosition" : "219,0",
+        "last_setup_crc32" : "16062A08734d87",
+        "scrollLine" : "215"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

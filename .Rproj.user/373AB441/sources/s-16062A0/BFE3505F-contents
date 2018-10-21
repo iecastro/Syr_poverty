@@ -190,6 +190,86 @@ ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percen
 
 ```
 
-## continue here from original file 
+
 ## No schooling by census tract
+
+```{r schooling, echo = FALSE}
+
+schooling <- get_acs(geography = "tract", 
+                     variables = c("B06009_002E", "B06009_001E"), 
+                     county = "Onondaga", state = "NY", output = "wide", 
+                     geometry = TRUE) %>%
+  filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(pct_noHSDiploma = B06009_002E / B15003_001E)
+
+hway <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/highway_SYR.shp")
+
+```
+
+## Less than high school education
+
+```{r, echo = FALSE}
+ggplot() + geom_sf(data = schooling, aes(fill = pct_noHSDiploma, color = pct_noHSDiploma)) +
+  geom_sf(data = hway, size = .75, color = "deeppink1") +
+  scale_fill_viridis_c(option = "cividis", labels = scales::percent) +
+  scale_color_viridis_c(option = "cividis",labels = scales::percent) +
+  theme_map()  +
+  labs(fill = "Population 25 years \nand older with no \nHS Degree",color = "Population 25 years \nand older with no \nHS Degree")
+
+```
+
+## Percentage of people with computers and internet connectivity
+
+```{r connectivity, echo = FALSE}
+getCensus(name="acs/acs1/profile", vintage=2017,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
+                   vars=c("NAME",'DP02_0150E',"DP02_0151E", "DP02_0152E"), 
+                   region="place:*", regionin="state:36") %>%
+  mutate(percent_computer = round((DP02_0151E/DP02_0150E)*100),
+         percent_internet = round((DP02_0152E/DP02_0150E)*100)) %>%
+  select(NAME, percent_computer, percent_internet) %>%
+  gather(key = variable, value = "percent", -NAME) %>%
+  mutate(ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no" ) ) %>%
+  ggplot(aes(NAME, percent, fill = ToHighlight)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label=paste(percent, "%", sep = ""), hjust=1.25)) +
+  scale_fill_manual( values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) +
+  coord_flip() +
+  ylim(c(0,100)) +
+  facet_wrap(~variable)  +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+          axis.title.x=element_blank())
+
+```
+
+## Lived in the same house 1 year ago
+
+```{r same house , echo=FALSE}
+probs <- c(0, 0.25, 0.5, 0.75, 1)
+same_house <- getCensus(name="acs/acs5", vintage=2016, key = "6e16b11542b37f683e1a381a58b1a8172792c11b", 
+                         vars=c("NAME", "B07001_017E", 'B07001_018E','B07001_019E','B07001_001E', 'B07001_002E','B07001_003E'), 
+                         region="tract:*", regionin="state:36+county:067") %>%
+  mutate(tot_moved_below_18 = rowSums(select(., B07001_018E,B07001_019E)),
+         tot_below_18 = rowSums(select(., B07001_002E,B07001_003E)))  %>%
+  mutate(percentage = round((tot_moved_below_18/tot_below_18)*100),
+         tractid = paste(state, county, tract, sep = ""))
+quantiles <- quantile(same_house$percentage, prob=probs, na.rm = TRUE)
+same_house$quant <- factor(findInterval(same_house$percentage,quantiles))
+
+censusmerge_same_house <- merge(fortified_join, same_house, by.x = "GEOID10", by.y = "tractid")
+censusmerge_same_house <- censusmerge_same_house[order(censusmerge_same_house$order),]
+
+same_house_map <- ggplot() +
+  geom_polygon(data = censusmerge_same_house, aes(x = long, y = lat, group = group, fill = quant), 
+               color = NA, size = 0.25) +
+  geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "darkgrey") + 
+  coord_fixed(1.3) +
+  theme_map() +
+  scale_fill_brewer(palette = "Blues") +
+  labs(title = "Same house")
+same_house_map
+
+```
+
 

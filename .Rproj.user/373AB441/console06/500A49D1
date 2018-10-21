@@ -449,4 +449,91 @@ Total 61 (delta 17), reused 0 (delta 0)[0K
 [0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
 [0m[0K
 $[0K[3G[?25h[?25l$ git push[0K[3G[?25h[12G[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25hA[0K[?25l
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/prop/INDEX.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/prop/76C22AC5.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/prop/FD5F21B1.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BF0AD223/670CE82B.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BF0AD223/670CE82B-contents.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cjdwmm5fkbx[0K1[?25l
+8/000062.csv.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/csetup_chun[0Kk[?25l
+/000002.csv.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hit[0K[7G[?25l$ git c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K[14G[?25l$ git commit =[0K[?25h[?25l$ git commit[0K[14G[?25h[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hc[0Kr[0Ke[0K[?25l$ git commit -m "cr[0K[?25he[0Ka[0Kt[0Ke[0K[25G[?25l$ git commit -m "create r[0K[?25he[0Kn[0Kd[0Ke[0Kr[0Ke[0Kd[0K[34G[?25l$ git commit -m "create rendered m[0K[?25hd[0K"[0K[?25l
+[0K[?25h[master cea059e] create rendered md[0K[?25l
+ 42 files changed, 638 insertions(+), 23 deletions(-)[0K
+ create mode 100644 .Rproj.user/373AB441/sources/prop/76C22AC5[0K
+ create mode 100644 .Rproj.user/373AB441/sources/prop/FD5F21B1[0K
+ delete mode 100644 .Rproj.user/373AB441/sources/s-BF0AD223/4C075CB[0K
+ create mode 100644 .Rproj.user/373AB441/sources/s-BF0AD223/670CE82B[0K
+ create mode 100644 .Rproj.user/373AB441/sources/s-BF0AD223/670CE82B-contents[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/373AB441BF0AD223/chunks.json[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ca1wybnp8qh1e/00003b.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ca1wybnp8qh1e/00003b.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ca1wybnp8qh1e/00003b.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cct40e25nec10/000016.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cct40e25nec10/000016.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cct40e25nec10/000016.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ceag9fatur6ir/000006.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ceag9fatur6ir/000006.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/ceag9fatur6ir/000006.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/chunks.json[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cjdwmm5fkbx18/000062.csv[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cjdwmm5fkbx18/000063.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cjdwmm5fkbx18/000063.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cjdwmm5fkbx18/000063.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/clu21v4vcctfu/000029.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/clu21v4vcctfu/000029.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/clu21v4vcctfu/000029.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cqrtk3si3e184/000009.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cqrtk3si3e184/000009.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cqrtk3si3e184/000009.snapshot[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/csetup_chunk/000002.csv[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cufq7kn6u20fb/000007.metadata[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cufq7kn6u20fb/000007.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/CDB4AEBE-rendered/1/s/cufq7kn6u20fb/000007.snapshot[0K
+ create mode 100644 post_figs/census_poverty-compsci-1.png[0K
+ create mode 100644 post_figs/census_poverty-poverty compared-1.png[0K
+ create mode 100644 post_figs/census_poverty-poverty history-1.png[0K
+ create mode 100644 post_figs/census_poverty-public transport city-1.png[0K
+ create mode 100644 post_figs/census_poverty-public transportation map-1.png[0K
+ create mode 100644 post_figs/census_poverty-public transportation poverty history-1.png[0K
+ create mode 100644 post_figs/census_poverty-unnamed-chunk-1-1.png[0K
+ create mode 100644 rendered.Rmd[0K
+ create mode 100644 rendered.md[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+$[0K[3G[?25h[?25l$ git push -u myrepo master[0K[?25h[?25l
+[0K[?25hEnumerating objects: 42, done.[0K[?25l
+[0K[?25h[?25lCounting objects:   9% (4/42)[0K[1G[?25h[?25lCounting objects:  14% (6/42)[0K[1G[?25h[?25lCounting objects:  16% (7/42)[0K[1G[?25h[?25lCounting objects:  23% (10/42)[0K[1G[?25h[?25lCounting objects:  28% (12/42)[0K[1G[?25h[?25lCounting objects:  38% (16/42)[0K[1G[?25h[?25lCounting objects:  42% (18/42)[0K[1G[?25h[?25lCounting objects:  45% (19/42)[0K[1G[?25h[?25lCounting objects:  47% (20/42)[0K[1G[?25h[?25lCounting objects:  57% (24/42)[0K[1G[?25h[?25lCounting objects:  59% (25/42)[0K[1G[?25h[?25lCounting objects:  69% (29/42)[0K[1G[?25h[?25lCounting objects:  73% (31/42)[0K[1G[?25h[?25lCounting objects:  78% (33/42)[0K[1G[?25h[?25lCounting objects:  83% (35/42)[0K[1G[?25h[?25lCounting objects:  90% (38/42)[0K[1G[?25h[?25lCounting objects:  97% (41/42)[0K[1G[?25hCounting objects: 100% (42/42), done.[0K[?25l
+Delta compression using up to 4 threads.[0K
+Compressing objects:  18% (5/27)[0K[1G[?25h[?25lCompressing objects:  29% (8/27)[0K[1G[?25h[?25lCompressing objects:  37% (10/27)[0K[1G[?25h[?25lCompressing objects:  44% (12/27)[0K[1G[?25h[?25lCompressing objects:  51% (14/27)[0K[1G[?25h[?25lCompressing objects:  55% (15/27)[0K[1G[?25h[?25lCompressing objects:  59% (16/27)[0K[1G[?25h[?25lCompressing objects:  66% (18/27)[0K[1G[?25h[?25lCompressing objects:  70% (19/27)[0K[1G[?25h[?25lCompressing objects:  74% (20/27)[0K[1G[?25h[?25lCompressing objects:  81% (22/27)[0K[1G[?25h[?25lCompressing objects:  96% (26/27)[0K[1G[?25hCompressing objects: 100% (27/27), done.[0K[?25l
+[0K[?25h[?25lWriting objects:  13% (4/30)[0K[1G[?25h[?25lWriting objects:  16% (5/30)[0K[1G[?25h[?25lWriting objects:  26% (8/30)[0K[1G[?25h[?25lWriting objects:  30% (9/30)[0K[1G[?25h[?25lWriting objects:  50% (15/30)[0K[1G[?25h[?25lWriting objects:  70% (21/30)[0K[1G[?25h[?25lWriting objects:  73% (22/30)[0K[1G[?25h[?25lWriting objects:  86% (26/30)[0K[1G[?25h[?25lWriting objects:  93% (28/30)[0K[1G[?25hWriting objects: 100% (30/30), 131.15 KiB | 444.00 KiB/s, done.[0K[?25l
+Total 30 (delta 4), reused 0 (delta 0)[0K
+[0K[?25hremote: Resolving deltas: 100% (4/4), completed with 4 local objects.[0K[?25l
+[0K[?25hTo https://github.com/iecastro/Syr_poverty.git[0K[?25l
+   19edcd5..cea059e  master -> master[0K
+[0K[?25hBranch 'master' set up to track remote branch 'master' from 'myrepo'.[0K[?25l
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_poverty[0;36m (master[0K)
+[0m[0K
+[?25l$ g[0K[?25hi[0Kt[0K a[0Kd[0Kd[0K[11G[12G[?25l
+[0K[?25hNothing specified, nothing added.[0K[?25l
+Maybe you wanted to say 'git add .'?[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_pov[0Ke
+rty[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h[?25lA[0K[12G[?25h[13G[?25l
 [0K[?25h

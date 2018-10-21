@@ -194,66 +194,28 @@ ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percen
 ## No schooling by census tract
 
 ```{r schooling, echo = FALSE}
-schooling <- getCensus(name="acs/acs5", vintage=2016,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
-                   vars=c("NAME", "B01001_001E","B15003_001E", "B15003_002E", "B15003_003E", "B15003_004E", "B15003_005E",
-                          "B15003_006E","B15003_007E", "B15003_008E", "B15003_009E", "B15003_010E", "B15003_011E",
-                          "B15003_012E","B15003_013E", "B15003_014E", "B15003_015E", "B15003_016E", "B15003_017E",
-                          "B15003_018E","B15003_019E", "B15003_020E", "B15003_021E", "B15003_022E", "B15003_023E",
-                          "B15003_024E","B15003_025E"),
-                   region="tract:*", regionin="state:36+county:067") %>%
-  mutate(tractid = paste(state, county, tract, sep = ""),
-         percent_no_school= round((B15003_002E/B15003_001E)*100),
-         sum_less_then_hs = rowSums(select(., B15003_002E,B15003_003E, B15003_004E, B15003_005E, B15003_006E,
-                                           B15003_007E, B15003_008E, B15003_009E, B15003_010E, B15003_011E, B15003_012E)),
-         percent_less_hs = round((sum_less_then_hs/B15003_001E)*100),
-         sum_hs_no_degree = rowSums(select(., B15003_002E,B15003_003E, B15003_004E, B15003_005E, B15003_006E,
-                                           B15003_007E, B15003_008E, B15003_009E, B15003_010E, B15003_011E, B15003_012E, B15003_013E,B15003_014E,B15003_015E,B15003_016E)),
-         percent_no_hs_degree = round((sum_hs_no_degree/B15003_001E)*100))
 
-censusmerge_schooling <- merge(fortified_join, schooling, by.x = "GEOID10", by.y = "tractid")
-censusmerge_schooling <- censusmerge_schooling[order(censusmerge_schooling$order),]
+schooling <- get_acs(geography = "tract", 
+                     variables = c("B06009_002E", "B06009_001E"), 
+                     county = "Onondaga", state = "NY", output = "wide", 
+                     geometry = TRUE) %>%
+  filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(pct_noHSDiploma = B06009_002E / B15003_001E)
 
-no_schooling_chart <- ggplot() +
-  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_no_school), 
-               color = NA, size = 0.25) +
-    geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "grey") + 
-
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
-  theme_map() +
-  labs(title = "No schooling")
-no_schooling_chart
-
-
+hway <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/highway_SYR.shp")
 
 ```
 
 ## Less than high school education
 
 ```{r, echo = FALSE}
-less_than_hs_chart <- ggplot() +
-  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_less_hs), 
-               color = "grey", size = 0.25) +
-    geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "grey") + 
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
+ggplot() + geom_sf(data = schooling, aes(fill = pct_noHSDiploma, color = pct_noHSDiploma)) +
+  geom_sf(data = hway, size = .75, color = "deeppink1") +
+  scale_fill_viridis_c(option = "cividis", labels = scales::percent) +
+  scale_color_viridis_c(option = "cividis",labels = scales::percent) +
   theme_map()  +
-  labs(title = "No HS")
-less_than_hs_chart
-```
+  labs(fill = "Population 25 years \nand older with no \nHS Degree",color = "Population 25 years \nand older with no \nHS Degree")
 
-## No hs degree map
-
-```{r, echo = FALSE}
-no_hs_degree_chart <- ggplot() +
-  geom_polygon(data = censusmerge_schooling, aes(x = long, y = lat, group = group, fill = percent_no_hs_degree), 
-               color = NA, size = 0.25) +
-    geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "grey") + 
-  coord_fixed(1.3) +
-  scale_fill_continuous(low = "grey", high = "tomato") +
-  theme_map() +
-  labs(title = "No HS Degree")
-no_hs_degree_chart
 ```
 
 ## Percentage of people with computers and internet connectivity
