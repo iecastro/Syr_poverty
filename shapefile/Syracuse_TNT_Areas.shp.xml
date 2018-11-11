@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Syracuse-Onondaga County Planning Agency, (http://www.syracuse.ny.us/tnt.asp).</origin>
+				<pubdate>June 2006</pubdate>
+				<title>Syracuse TNT Areas</title>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<onlink>\\projects\projects\Geography\IMS\Posted Data\TNT_Sectors.shp</onlink>
+				<ftname Sync="TRUE">Syracuse_TNT_Areas</ftname></citeinfo>
+		</citation>
+		<descript>
+			<abstract>The City of Syracuse Tomorrow's Neighborhoods Today (TNT) program is a comprehensive process for involving neighborhood residents, businesses, and organizations in neighborhood planning.  TNT areas build upon community assets, and develop workable plans and priorities for Syracuse neighborhoods. TNT is composed of eight Area Planning Councils: six neighborhood-based, one Downtown and one Lakefront.  The six neighborhood-based areas are organized according to natural geographic boundaries, and include at least one business district, a city park, at least one city school, and 4-7 identifiable neighborhoods. For more information, visit http://www.syracuse.ny.us/tnt.asp</abstract>
+			<purpose>Geographic and demographic analysis</purpose>
+			<langdata Sync="TRUE">en</langdata></descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate><caldate>July 2006</caldate></sngdate>
+			</timeinfo>
+			<current>ground condition</current></timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>None planned</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">-76.205735</westbc>
+				<eastbc Sync="TRUE">-76.073737</eastbc>
+				<northbc Sync="TRUE">43.086933</northbc>
+				<southbc Sync="TRUE">42.983689</southbc>
+			</bounding>
+			<lboundng><leftbc Sync="TRUE">401858.631820</leftbc><rightbc Sync="TRUE">412459.759701</rightbc><bottombc Sync="TRUE">4759706.447958</bottombc><topbc Sync="TRUE">4771029.870657</topbc></lboundng></spdom>
+		<keywords>
+			<theme>
+				<themekey>TNT, Tomorrow's Neighborhoods Today, Syracuse, community development, community planning, government, participatory planning</themekey>
+			</theme>
+		</keywords>
+		<accconst>No access constraints.</accconst>
+		<useconst>No use constraints.</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>SU Geography Dept.</cntorg>
+					<cntper>Jonnell Allen</cntper>
+				</cntorgp>
+				<cntpos>Syracuse Community Geography</cntpos>
+				<cntemail>jdallen@maxwell.syr.edu</cntemail>
+			</cntinfo>
+		</ptcontac>
+		<native Sync="TRUE">Microsoft Windows Vista Version 6.1 (Build 7600) ; ESRI ArcCatalog 9.3.0.1770</native>
+		<natvform Sync="TRUE">Shapefile</natvform></idinfo>
+	<dataqual>
+		<lineage>
+			<procstep>
+				<procdesc>Dataset copied.</procdesc>
+			</procstep>
+			<procstep>
+				<procdesc>Dataset copied.</procdesc>
+				<srcused></srcused>
+			</procstep>
+			<procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">C:\DOCUME~1\jdallen\LOCALS~1\Temp\xml373D.tmp</srcused><date Sync="TRUE">20060807</date><time Sync="TRUE">13173900</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">G:\MAX-Filer\Collab\Geo Datasets-bevonkno-F07\Distribution Materials\Syracuse_GIS\TNTBoundaries\Syracuse_TNT</srcused><date Sync="TRUE">20080220</date><time Sync="TRUE">16352100</time></procstep></lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf>
+			<sdtsterm Name="Syracuse_TNT_Areas">
+				<sdtstype Sync="TRUE">G-polygon</sdtstype>
+				<ptvctcnt Sync="TRUE">8</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="Syracuse_TNT_Areas"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom Sync="TRUE">Polygon</efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">8</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<planci>
+					<plance Sync="TRUE">coordinate pair</plance>
+					<coordrep>
+						<absres Sync="TRUE">0.000000</absres>
+						<ordres Sync="TRUE">0.000000</ordres>
+					</coordrep>
+					<plandu Sync="TRUE">meters</plandu>
+				</planci>
+				<gridsys><gridsysn Sync="TRUE">Universal Transverse Mercator</gridsysn><utm><utmzone Sync="TRUE">18</utmzone><transmer><sfctrmer Sync="TRUE">0.999600</sfctrmer><longcm Sync="TRUE">-75.000000</longcm><latprjo Sync="TRUE">0.000000</latprjo><feast Sync="TRUE">500000.000000</feast><fnorth Sync="TRUE">0.000000</fnorth></transmer></utm></gridsys></planar>
+			<geodetic>
+				<horizdn Sync="TRUE">North American Datum of 1983</horizdn>
+				<ellips Sync="TRUE">Geodetic Reference System 80</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257222</denflat>
+			</geodetic>
+			<cordsysn><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn><projcsn Sync="TRUE">NAD_1983_UTM_Zone_18N</projcsn></cordsysn></horizsys>
+	</spref>
+	<eainfo>
+		<detailed Name="Syracuse_TNT_Areas">
+			<enttyp>
+				<enttypl>Syracuse TNT Areas</enttypl>
+				<enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">8</enttypc></enttyp>
+			<attr>
+				<attrlabl>FID</attrlabl>
+				<attrdef>Internal feature number.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Sequential unique whole numbers that are automatically generated.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">FID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>AREA</attrlabl>
+				<attrdef>Geographic area</attrdef>
+				<attrtype Sync="TRUE">Number</attrtype><attwidth Sync="TRUE">19</attwidth><attalias Sync="TRUE">AREA</attalias><atnumdec Sync="TRUE">11</atnumdec></attr>
+			<attr>
+				<attrlabl>PERIMETER</attrlabl>
+				<attrdef>Geographic perimeter</attrdef>
+				<attrtype Sync="TRUE">Number</attrtype><attwidth Sync="TRUE">19</attwidth><attalias Sync="TRUE">PERIMETER</attalias><atnumdec Sync="TRUE">11</atnumdec></attr>
+			<attr><attrlabl Sync="TRUE">TNT_Area</attrlabl><attalias Sync="TRUE">TNT_Area</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>TNT is composed of eight Area Planning Councils: six neighborhood-based, one Downtown and one Lakefront.  The six neighborhood-based areas are organized according to natural geographic boundaries, and include at least one business district, a city park, at least one city school, and 4-7 identifiable neighborhoods.</attrdef><attrdefs>The City of Syracuse</attrdefs></attr></detailed>
+	</eainfo>
+	<distinfo>
+		<resdesc>Downloadable Data</resdesc>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<transize>0.040</transize>
+					<dssize Sync="TRUE">0.038</dssize></digtinfo>
+			</digform>
+		</stdorder>
+	</distinfo>
+	<metainfo>
+		<metd Sync="TRUE">20100707</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>SU Geography Dept.</cntorg>
+					<cntper>Jonnell Allen</cntper>
+				</cntorgp>
+				<cntpos>Syracuse Community Geographer</cntpos>
+				<cntaddr/>
+				<cntemail>jdallen@maxwell.syr.edu</cntemail>
+			</cntinfo>
+		</metc>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<metextns>
+			<onlink>http://www.esri.com/metadata/esriprof80.html</onlink>
+			<metprof>ESRI Metadata Profile</metprof>
+		</metextns>
+		<langmeta Sync="TRUE">en</langmeta><metextns><onlink Sync="TRUE">http://www.esri.com/metadata/esriprof80.html</onlink><metprof Sync="TRUE">ESRI Metadata Profile</metprof></metextns></metainfo>
+	<Esri><CreaDate>20171109</CreaDate><CreaTime>11454300</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20100707</SyncDate><SyncTime>07341200</SyncTime><ModDate>20100707</ModDate><ModTime>07341200</ModTime><DataProperties><itemProps><itemLocation><linkage Sync="TRUE">file://\\hd.ad.syr.edu\02\c3964a\Documents\Desktop\GIS\Onondaga\Syracuse_TNT_Areas</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><copyHistory><copy source="G:\MAX-Filer\Collab\Geo Datasets-bevonkno-F07\Distribution Materials\Syracuse_GIS\TNTBoundaries\Syracuse_TNT_Areas" dest="\\hd.ad.syr.edu\02\c3964a\Documents\Desktop\GIS\Onondaga\Syracuse_TNT_Areas" date="20171109" time="11454300"></copy></copyHistory></DataProperties></Esri><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows Vista Version 6.1 (Build 7600) ; ESRI ArcCatalog 9.3.0.1770</envirDesc><dataLang><languageCode Sync="TRUE" value="en"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">Syracuse_TNT_Areas</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">401858.63182</westBL><eastBL Sync="TRUE">412459.759701</eastBL><northBL Sync="TRUE">4771029.870657</northBL><southBL Sync="TRUE">4759706.447958</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-76.205735</westBL><eastBL Sync="TRUE">-76.073737</eastBL><northBL Sync="TRUE">43.086933</northBL><southBL Sync="TRUE">42.983689</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox></dataIdInfo><mdLang><languageCode Sync="TRUE" value="en"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="004"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\shared.ad.syr.edu\drive\MAX-Filer\Collab\Geo Datasets-bevonkno-F07\Distribution Materials\Syracuse_GIS\TNTBoundaries\Syracuse_TNT_Areas.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">0.038</transSize></distorTran><distorFormat><formatName Sync="TRUE">Shapefile</formatName></distorFormat></distributor></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE">NAD_1983_UTM_Zone_18N</identCode></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="Syracuse_TNT_Areas"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="001"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">8</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20100707</mdDateSt></metadata>

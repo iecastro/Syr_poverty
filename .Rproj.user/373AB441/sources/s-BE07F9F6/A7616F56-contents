@@ -202,7 +202,9 @@ schooling <- get_acs(geography = "tract",
   filter(as.numeric(GEOID) < 36067006104) %>% 
   mutate(pct_noHSDiploma = B06009_002E / B15003_001E)
 
-hway <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/highway_SYR.shp")
+hway <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/highway_SYR.shp") ## missing hway sections
+TNT <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/Syracuse_TNT_Areas.shp")  ## poor edge alignment 
+
 
 ```
 
@@ -221,25 +223,23 @@ ggplot() + geom_sf(data = schooling, aes(fill = pct_noHSDiploma, color = pct_noH
 ## Percentage of people with computers and internet connectivity
 
 ```{r connectivity, echo = FALSE}
+
 getCensus(name="acs/acs1/profile", vintage=2017,  key = "6e16b11542b37f683e1a381a58b1a8172792c11b",
-                   vars=c("NAME",'DP02_0150E',"DP02_0151E", "DP02_0152E"), 
-                   region="place:*", regionin="state:36") %>%
-  mutate(percent_computer = round((DP02_0151E/DP02_0150E)*100),
-         percent_internet = round((DP02_0152E/DP02_0150E)*100)) %>%
-  select(NAME, percent_computer, percent_internet) %>%
+          vars=c("NAME",'DP02_0150E',"DP02_0151E", "DP02_0152E"), 
+          region="place:*", regionin="state:36") %>%
+  mutate(percent_computer= DP02_0151E/DP02_0150E,
+         percent_internet = DP02_0152E/DP02_0150E) %>%
+  select(NAME, "Households with a computer"=  percent_computer, "Households with internet service"= percent_internet) %>%
   gather(key = variable, value = "percent", -NAME) %>%
   mutate(ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no" ) ) %>%
-  ggplot(aes(NAME, percent, fill = ToHighlight)) +
-  geom_col(position = "dodge") +
-  geom_text(aes(label=paste(percent, "%", sep = ""), hjust=1.25)) +
-  scale_fill_manual( values = c( "yes"="tomato", "no"="gray" ), guide = FALSE ) +
-  coord_flip() +
-  ylim(c(0,100)) +
-  facet_wrap(~variable)  +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), axis.text.x=element_blank(),axis.ticks.x=element_blank(),
-          axis.title.x=element_blank())
+  ggplot(aes(percent,NAME, color = ToHighlight)) +
+  geom_segment(aes(x = 0.5, y = NAME, xend = percent, yend = NAME)) +
+  geom_point() +
+  scale_color_manual( values = c( "yes"="tomato", "no"="black" ), guide = FALSE ) + 
+  scale_x_continuous(labels = scales::percent) +
+  facet_wrap(~variable, scales = "free_x") + labs(x = "", y ="")  +
+  theme_minimal() + theme(axis.text = element_text(color = "black"),
+                          axis.text.y = element_text(color = "black"))
 
 ```
 
