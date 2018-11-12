@@ -321,7 +321,7 @@ mobility <- get_acs(geography = "tract", state = "NY", county = "Onondaga",
 ```
 
 
-```{r, echo = FALSE, fig.height= 8, fig.width=10}}
+```{r, echo = FALSE, fig.height= 8, fig.width=10}
 mobility %>%  
   filter(as.numeric(GEOID) < 36067006104) %>% 
   ggplot() + geom_sf(aes(fill = TotalME, color = TotalME)) + 
