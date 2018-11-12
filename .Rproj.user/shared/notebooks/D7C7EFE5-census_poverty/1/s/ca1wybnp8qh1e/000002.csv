@@ -1,0 +1,37 @@
+"0","streets <- st_read(""~/Desktop/DataProjects/Syr_poverty/shapefile/City_Streets_2011.shp"")"
+"1","Reading layer `"
+"1","City_Streets_2011"
+"1","' from data source `"
+"1","\\hd.ad.syr.edu\02\c3964a\Documents\Desktop\DataProjects\Syr_poverty\shapefile\City_Streets_2011.shp"
+"1","' using driver `"
+"1","ESRI Shapefile"
+"1","'"
+"1","
+"
+"1","Simple feature collection with 5650 features and 50 fields"
+"1","
+"
+"1","geometry type:  LINESTRING
+"
+"1","dimension:      XY
+"
+"1","bbox:           "
+"1","xmin: -76.20455 ymin: 42.98442 xmax: -76.07427 ymax: 43.08618"
+"1","
+"
+"1","epsg (SRID):    4326
+"
+"1","proj4string:    +proj=longlat +datum=WGS84 +no_defs
+"
+"0","                   "
+"0","transpo_tracts <- get_acs(geography = ""tract"", variables = vars2, year = 2016,"
+"0","                        county = ""Onondaga"", state = ""NY"", output = ""wide"","
+"0","                        geometry = TRUE) %>%"
+"0","                 filter(as.numeric(GEOID) < 36067006104) %>% "
+"0","  mutate(poverty_pub_transp = total_pub_trans_1_9999 + total_pub_trans_10k_14999 + total_pub_trans_15k_24999,percent_poverty_pub_transp = poverty_pub_transp/total_pub, "
+"0","         percent_pub_transport = total_pub/total_trans)"
+"2","Getting data from the 2012-2016 5-year ACS
+"
+"2","Error in get_acs(geography = ""tract"", variables = vars2, year = 2016,  : 
+  object 'vars2' not found
+"

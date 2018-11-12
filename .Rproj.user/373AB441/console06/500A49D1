@@ -619,4 +619,104 @@ $[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd
 [0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_[0Kp
 overty[0;36m (master)[0m[0K
 [?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25h[?25ld[0K[8G[?25h[9G[?25l$ git add[0K[?25h[11G[?25l$ git add =[0K[11G[?25h[12G[?25l$ git add[0K[11G[?25h[?25l$ git add -[0K[?25hA[0K[?25l
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/pcs/files-pane.pper.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/pcs/source-pane.pper.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/pcs/windowlayoutstate.pper[0K.[?25l
+[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/pcs/workbench-pane.pper.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/rmd-outputs.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/prop/D17A3CD9.[0K[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/D7C7EFE5-census_po[0Kv[?25l
+erty/1/s/csetup_chunk/000002.csv.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25h[?25lwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K[2G[?25h[?25l
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BE07F9F6/6E82BCE[0K3[?25l
+.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BE07F9F6/6E82BCE[0K3[?25l
+-contents.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BE07F9F6/A7616F5[0K6[?25l
+.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/373AB441/sources/s-BE07F9F6/A7616F5[0K6[?25l
+-contents.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/D7C7EFE5-census_po[0Kv[?25l
+erty/1/s/c3d9cxhs552c1/00001e.csv.[0K
+The file will have its original line endings in your working directory.[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_[0Kp
+overty[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[8G[?25l$ git  c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K[15G[?25l$ git  commit -[0K[?25hm[0K[18G[?25l$ git  commit -m "[0K[?25hu[0Kp[0Kd[0Ka[0Kt[0Ke[0K[26G[?25l$ git  commit -m "update i[0K[?25hn[0Kt[0Ke[0Kr[0Kn[0Ke[0Kt[0K[35G[34G[35G[34G[35G[?25l$ git  commit -m "update internet c[0K[?25hh[0Ku[0K[?25ln[0K[38G[?25h[39G[?25l$ git  commit -m "update internet chunk[0K[?25h"[0K[?25l
+[0K[?25h[master 1ba35bb] update internet chunk[0K[?25l
+ 34 files changed, 329 insertions(+), 49 deletions(-)[0K
+ delete mode 100644 .DS_Store[0K
+ rewrite .Rproj.user/373AB441/console06/INDEX001 (86%)[0K
+ create mode 100644 .Rproj.user/373AB441/sources/s-BE07F9F6/6E82BCE3[0K
+ create mode 100644 .Rproj.user/373AB441/sources/s-BE07F9F6/6E82BCE3-contents[0K
+ rename .Rproj.user/373AB441/sources/{s-16062A0/BFE3505F => s-BE07F9F6/A7616F56} (56%)[0K
+ rename .Rproj.user/373AB441/sources/{s-16062A0/BFE3505F-contents => s-BE07F9F6/A7616F5[0K6
+-contents} (91%)[0K
+ rename .Rproj.user/373AB441/sources/{s-16062A0 => s-BE07F9F6}/lock_file (100%)[0K
+ rename .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/{373AB44116062A0 => 373A[0KB
+441BE07F9F6}/chunks.json (83%)[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/c3d9cxhs55[0K2
+c1/00001e.csv[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ca1wybnp8qh1e/00003b.[0Kp
+ng (96%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cct40e25nec10/000016.[0Kp
+ng (97%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/ceag9fatur6ir/000006.[0Kp
+ng (95%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cjdwmm5fkbx18/000063.[0Kp
+ng (95%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/clu21v4vcctfu/000029.[0Kp
+ng (99%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cqrtk3si3e184/000009.[0Kp
+ng (94%)[0K
+ rewrite .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/cufq7kn6u20fb/000007.[0Kp
+ng (98%)[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrwkp[0K4
+5d/000018.png[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrwkp[0K4
+5d/000018.snapshot[0K
+ rename .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrwkp45d/{000018.[0Km
+etadata => 00001e.metadata} (100%)[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrwkp[0K4
+5d/00001e.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrwkp[0K4
+5d/00001e.snapshot[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.dbf[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.prj[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.sbn[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.sbx[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shp[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shp.xml[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shx[0K
+[0K[?25h[?25l
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Syr_[0Kp
+overty[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l[14A create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrw[0Kk
+p45d/00001e.png[0K
+ create mode 100644 .Rproj.user/shared/notebooks/D7C7EFE5-census_poverty/1/s/czguimrw[0Kk
+p45d/00001e.snapshot[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.dbf[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.prj[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.sbn[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.sbx[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shp[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shp.xml[0K
+ create mode 100644 shapefile/Syracuse_TNT_Areas.shx[0K
+[0K
+[0;32miecastro@FALK-PH-NSF-L10 [0;35m [0;33m//hd.ad.syr.edu/02/c3964a/Documents/Desktop/DataProjects/Sy[0Kr
+_poverty[0;36m (master)[0K
+[0m$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25hA[0K[?25l
 [0K[?25h

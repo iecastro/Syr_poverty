@@ -78,7 +78,7 @@ poverty %>% filter(year == 2017) %>%
   scale_y_continuous(labels = scales::percent) + 
   labs(title = "Population in poverty by city", x = "", y = "") +
    theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
-azq
+
 ```
 
 
@@ -189,7 +189,6 @@ ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percen
   theme_minimal() + theme(axis.text = element_blank())
 
 ```
-
 
 ## No schooling by census tract
 
@@ -333,6 +332,8 @@ mobility %>%
   theme(axis.text = element_blank()) +
   labs(fill ="", color="" , caption = "*Census-tracts of Syracuse University's Main and South Campus")
 ```
+
+
 
 
 

@@ -1,0 +1,140 @@
+library(tidycensus)
+library(tidyverse)
+library(viridis)
+library(sf)
+library(httr)
+
+
+options(tigris_class = "sf", tigris_use_cache = TRUE)
+
+census_api_key(" ")
+
+v15 <- load_variables(2016,"acs5", cache = FALSE)
+View(v15)
+
+
+###### select variables
+
+##  https://api.census.gov/data/2016/acs/acs5/variables.html
+
+## Median gross rent as % of household income
+
+NY_rent <- get_acs(geography = "block group", state = "NY", variables =c(Rent = "B25071_001"), 
+                   output = "wide", geometry = TRUE, year = 2016,survey = "acs5") %>%
+         separate(NAME, into = c("BlkGrp", "Tract","County", "State"), sep = ",") 
+
+
+NY_rent %>% filter(County == " Onondaga County") %>%
+  ggplot() + geom_sf(aes(fill = RentE)) + scale_fill_viridis_c()
+
+## Median gross rent
+## B25064_001E
+
+NY_rentgross <- get_acs(geography = "block group", state = "NY", variables =c(Rent = "B25064_001"), 
+                   output = "wide", geometry = TRUE, year = 2016,survey = "acs5") %>%
+  separate(NAME, into = c("BlkGrp", "Tract","County", "State"), sep = ",") 
+
+  
+NY_rentgross %>% filter(County == " Onondaga County") %>%
+  ggplot() + geom_sf(aes(fill = RentE)) + scale_fill_viridis_c() 
+
+
+########  Geographical mobility - past year  #################
+
+## Moved into current residence in the past year
+
+Moved <- c(TotalM = "B07001_001",M1to4 = "B07001_002",M5to17 = "B07001_003",
+           M18to19 = "B07001_004", M20to24 = "B07001_005", M25to29 = "B07001_006",
+           M30to34 = "B07001_007", M35to39 = "B07001_008", M40to44 = "B07001_009",
+           M45to49 = "B07001_010", M50to54 = "B07001_011",M55to59 = "B07001_012",
+           M60to64 = "B07001_013", M65to69 = "B07001_014", M70to74 = "B07001_015",
+           M75over = "B07001_016")
+
+mobility <- get_acs(geography = "tract", state = "NY", county = "Onondaga",
+                    variables = Moved, 
+                    output = "wide", geometry = TRUE, year = 2016,
+                    survey = "acs5",
+                    keep_geo_vars = TRUE) %>%
+                    separate(NAME.y, into = c("Tract","County", "State"),sep = ",") 
+
+### filter Syracuse tracts
+
+mobility %>% mutate(tractnum = as.numeric(mobility$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot(aes(reorder(Tract, -TotalME), TotalME)) + geom_col() +
+  coord_flip()
+
+
+SouthCampus <- mobility %>% filter(TRACTCE == "005602") %>%
+  st_centroid()
+
+MainCampus <-mobility %>% filter(TRACTCE == "004302") %>%
+  st_centroid()
+
+
+mobility %>% mutate(tractnum = as.numeric(mobility$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot() + geom_sf(aes(fill = TotalME)) + scale_fill_viridis_c() +
+  geom_sf(data=MainCampus) +
+  geom_sf(data = SouthCampus) +
+  theme_minimal() + labs(fill = "") 
+
+mobility %>% mutate(tractnum = as.numeric(mobility$TRACTCE), 
+                under18 = M1to4E + M5to17E) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot() + geom_sf(aes(fill = under18)) + scale_fill_viridis_c() +
+  theme_minimal() + labs(fill = "") 
+
+mobility %>% mutate(under18 = M1to4E + M5to17E) %>% 
+  ggplot() + geom_sf(aes(fill = under18)) + 
+  scale_fill_viridis_c(option = "cividis", direction = -1) +
+  theme_minimal() + labs(fill = "") 
+
+## Data Cuse - properties data 
+
+Unfit_prop.Dec2017 <- st_read("https://opendata.arcgis.com/datasets/9ec2872366974b949bbee2e43047b730_0.geojson")
+
+mobility %>% mutate(tractnum = as.numeric(mobility$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot() + geom_sf(aes(fill = TotalME)) +
+  geom_sf(data = Unfit_prop.Dec2017, colour = "red", size = 1)
+
+
+## DataCuse parcel data
+
+parcelAPR18 <- st_read("https://opendata.arcgis.com/datasets/f8a69e7bd20c4250a151f8275174ec0c_0.geojson")
+vacant <- parcelAPR18 %>% filter(VacantBuil  == "Y") %>%
+  st_centroid()
+
+house %>% mutate(tractnum = as.numeric(house$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot() + geom_sf(aes(fill=lastyr)) +
+  geom_sf(data = vacant, colour = "red", size = .5) +
+  scale_fill_viridis_c(direction = -1)
+
+#### Housign Voucher
+
+## HCV  <- st_read("https://egis-hud.opendata.arcgis.com/datasets/8d45c34f7f64433586ef6a448d00ca12_0.geojson") %>%
+## HCV %>% filter(STATE == "36" & COUNTY == "067") %>% st_write("HCV.shp")
+
+OC_HCV <- HCV %>% filter(STATE == "36")
+
+OC_HCV %>% 
+  ggplot() + geom_sf(aes(fill = HCV_PUBLIC_PCT))
+
+
+## same house 1 year ago
+house <- get_acs(geography = "tract", state = "NY", county = "Onondaga",
+                    variables = c(lastyr = "B07001_017E"), 
+                    output = "wide", geometry = TRUE, year = 2016,
+                    survey = "acs5",
+                    keep_geo_vars = TRUE) %>%
+  separate(NAME.y, into = c("Tract","County", "State"),sep = ",") 
+
+
+house %>% mutate(tractnum = as.numeric(house$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot() + geom_sf(aes(fill=lastyr))+
+  scale_fill_viridis_c(direction = -1)
+
+

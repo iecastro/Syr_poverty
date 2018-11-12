@@ -1,0 +1,10 @@
+"0","schooling <- get_acs(geography = ""tract"", 
+                     variables = c(""B06009_002E"", ""B06009_001E""), 
+                     county = ""Onondaga"", state = ""NY"", output = ""wide"", 
+                     geometry = TRUE) %>%
+  filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(pct_noHSDiploma = B06009_002E / B15003_001E)
+"
+"2","Error in mutate_impl(.data, dots) : 
+  Evaluation error: object 'B15003_001E' not found.
+"

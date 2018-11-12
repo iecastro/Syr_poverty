@@ -1,0 +1,8 @@
+"0","mobility %>% mutate(tractnum = as.numeric(mobility$TRACTCE)) %>% 
+  filter(tractnum <= 006103) %>%
+  ggplot(aes(reorder(Tract, -TotalME), TotalME)) + geom_col() +
+  coord_flip()
+"
+"2","Error in mutate_impl(.data, dots) : 
+  Column `tractnum` must be length 140 (the number of rows) or one, not 0
+"

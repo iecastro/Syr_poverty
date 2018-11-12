@@ -7,7 +7,7 @@
 "0","  gather(key = variable, value = ""percent"", -NAME) %>%"
 "0","  mutate(ToHighlight = ifelse( NAME == ""Syracuse city, New York"", ""yes"", ""no"" ) ) %>%"
 "0","  ggplot(aes(percent,NAME, color = ToHighlight)) +"
-"0","  geom_segment(aes(x = 0.5, y = NAME, xend = percent, yend = NAME)) +"
+"0","  geom_segment(aes(x = 0.25, y = NAME, xend = percent, yend = NAME)) +"
 "0","  geom_point() +"
 "0","  scale_color_manual( values = c( ""yes""=""tomato"", ""no""=""black"" ), guide = FALSE ) + "
 "0","  scale_x_continuous(labels = scales::percent) +"

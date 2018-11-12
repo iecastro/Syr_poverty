@@ -1,0 +1,9 @@
+"0","ggplot() + geom_sf(data = schooling, aes(fill = pct_noHSDiploma, color = pct_noHSDiploma)) +"
+"0","  geom_sf(data = hway, size = .75, color = ""deeppink1"") +"
+"0","  scale_fill_viridis_c(option = ""cividis"", labels = scales::percent) +"
+"0","  scale_color_viridis_c(option = ""cividis"",labels = scales::percent) +"
+"0","  theme_map()  +"
+"0","  labs(fill = ""Population 25 years \nand older with no \nHS Degree"",color = ""Population 25 years \nand older with no \nHS Degree"")"
+"2","Error in geom_sf(data = hway, size = 0.75, color = ""deeppink1"") : 
+  object 'hway' not found
+"

@@ -78,7 +78,7 @@ poverty %>% filter(year == 2017) %>%
   scale_y_continuous(labels = scales::percent) + 
   labs(title = "Population in poverty by city", x = "", y = "") +
    theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
-azq
+
 ```
 
 
@@ -190,7 +190,6 @@ ggplot() + geom_sf(data = comp_sci, aes(fill = percent_comp_math, color = percen
 
 ```
 
-
 ## No schooling by census tract
 
 ```{r schooling, echo = FALSE}
@@ -200,7 +199,7 @@ schooling <- get_acs(geography = "tract",
                      county = "Onondaga", state = "NY", output = "wide", 
                      geometry = TRUE) %>%
   filter(as.numeric(GEOID) < 36067006104) %>% 
-  mutate(pct_noHSDiploma = B06009_002E / B15003_001E)
+  mutate(pct_noHSDiploma = B06009_002E / B06009_001E)
 
 hway <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/highway_SYR.shp") ## missing hway sections
 TNT <- st_read("~/Desktop/DataProjects/Syr_poverty/shapefile/Syracuse_TNT_Areas.shp")  ## poor edge alignment 
@@ -333,6 +332,8 @@ mobility %>%
   theme(axis.text = element_blank()) +
   labs(fill ="", color="" , caption = "*Census-tracts of Syracuse University's Main and South Campus")
 ```
+
+
 
 
 

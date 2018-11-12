@@ -78,7 +78,7 @@ poverty %>% filter(year == 2017) %>%
   scale_y_continuous(labels = scales::percent) + 
   labs(title = "Population in poverty by city", x = "", y = "") +
    theme_minimal() + theme(axis.text = element_text(color = "black"),panel.grid.major.x	= element_line(color = "black"))
-
+azq
 ```
 
 
@@ -233,7 +233,7 @@ getCensus(name="acs/acs1/profile", vintage=2017,  key = "6e16b11542b37f683e1a381
   gather(key = variable, value = "percent", -NAME) %>%
   mutate(ToHighlight = ifelse( NAME == "Syracuse city, New York", "yes", "no" ) ) %>%
   ggplot(aes(percent,NAME, color = ToHighlight)) +
-  geom_segment(aes(x = 0.5, y = NAME, xend = percent, yend = NAME)) +
+  geom_segment(aes(x = 0.25, y = NAME, xend = percent, yend = NAME)) +
   geom_point() +
   scale_color_manual( values = c( "yes"="tomato", "no"="black" ), guide = FALSE ) + 
   scale_x_continuous(labels = scales::percent) +
@@ -245,31 +245,96 @@ getCensus(name="acs/acs1/profile", vintage=2017,  key = "6e16b11542b37f683e1a381
 
 ## Lived in the same house 1 year ago
 
+### Quantiles
 ```{r same house , echo=FALSE}
 probs <- c(0, 0.25, 0.5, 0.75, 1)
-same_house <- getCensus(name="acs/acs5", vintage=2016, key = "6e16b11542b37f683e1a381a58b1a8172792c11b", 
-                         vars=c("NAME", "B07001_017E", 'B07001_018E','B07001_019E','B07001_001E', 'B07001_002E','B07001_003E'), 
-                         region="tract:*", regionin="state:36+county:067") %>%
-  mutate(tot_moved_below_18 = rowSums(select(., B07001_018E,B07001_019E)),
-         tot_below_18 = rowSums(select(., B07001_002E,B07001_003E)))  %>%
-  mutate(percentage = round((tot_moved_below_18/tot_below_18)*100),
-         tractid = paste(state, county, tract, sep = ""))
+same_house <- get_acs(geography = "tract",variables=c("B07001_017E", 'B07001_018E','B07001_019E','B07001_001E', 'B07001_002E','B07001_003E'),
+                      county = "Onondaga", state = "NY", output = "wide",
+                      geometry = TRUE) %>%
+  filter(as.numeric(GEOID) < 36067006104) %>% 
+  mutate(tot_moved_below_18 = B07001_018E+B07001_019E,
+         tot_below_18 = B07001_002E+B07001_003E, 
+         percentage = tot_moved_below_18/tot_below_18)
+
 quantiles <- quantile(same_house$percentage, prob=probs, na.rm = TRUE)
 same_house$quant <- factor(findInterval(same_house$percentage,quantiles))
 
-censusmerge_same_house <- merge(fortified_join, same_house, by.x = "GEOID10", by.y = "tractid")
-censusmerge_same_house <- censusmerge_same_house[order(censusmerge_same_house$order),]
-
-same_house_map <- ggplot() +
-  geom_polygon(data = censusmerge_same_house, aes(x = long, y = lat, group = group, fill = quant), 
-               color = NA, size = 0.25) +
-  geom_path(data = streets_data_fortified, aes(x = long, y = lat, group = group), alpha = .25, color = "darkgrey") + 
-  coord_fixed(1.3) +
-  theme_map() +
-  scale_fill_brewer(palette = "Blues") +
-  labs(title = "Same house")
-same_house_map
+ggplot() +
+  geom_sf(data = same_house, aes(fill = quant, color = quant)) + 
+  theme_minimal() + theme(axis.text = element_blank()) +
+  labs(fill="Quantile", color = "Quantile") +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d()
 
 ```
+
+### Percentages
+```{r}
+SouthCampus <- same_house %>% filter(GEOID == "36067005602") %>%
+  st_centroid()
+
+MainCampus <-same_house %>% filter(GEOID == "36067004302") %>%
+  st_centroid()
+
+
+ggplot() +
+  geom_sf(data = same_house, aes(fill = percentage, color = percentage)) + 
+  geom_sf(data=MainCampus) +
+  geom_sf(data = SouthCampus) +
+  theme_minimal() + theme(axis.text = element_blank()) +
+  scale_fill_viridis_c(option = "cividis",labels = scales::percent, direction = -1) +
+  scale_color_viridis_c(option = "cividis",labels = scales::percent, direction = -1) +
+  labs(fill ="", color="", caption = "*Census-tracts of Syracuse University's Main and South Campus") 
+
+```
+
+### Unfit properties
+
+```{r}
+Unfit_prop.Dec2017 <-st_read("https://opendata.arcgis.com/datasets/9ec2872366974b949bbee2e43047b730_0.geojson")
+
+ggplot() +
+  geom_sf(data = same_house, aes(fill = percentage, color = percentage)) + 
+  geom_sf(data = Unfit_prop.Dec2017, colour = "red", size = .90)+
+  theme_minimal() + theme(axis.text = element_blank()) +
+  scale_fill_viridis_c(option = "cividis",labels = scales::percent, direction = -1) +
+  scale_color_viridis_c(option = "cividis",labels = scales::percent, direction = -1) +
+  labs(fill ="", color="") 
+
+```
+
+
+## Moved into current residence in the past year
+
+```{r}
+Moved <- c(TotalM = "B07001_001",M1to4 = "B07001_002",M5to17 = "B07001_003",
+           M18to19 = "B07001_004", M20to24 = "B07001_005", M25to29 = "B07001_006",
+           M30to34 = "B07001_007", M35to39 = "B07001_008", M40to44 = "B07001_009",
+           M45to49 = "B07001_010", M50to54 = "B07001_011",M55to59 = "B07001_012",
+           M60to64 = "B07001_013", M65to69 = "B07001_014", M70to74 = "B07001_015",
+           M75over = "B07001_016")
+
+mobility <- get_acs(geography = "tract", state = "NY", county = "Onondaga",
+                    variables = Moved, 
+                    output = "wide", geometry = TRUE, year = 2016,
+                    survey = "acs5")
+
+```
+
+
+```{r}
+mobility %>%  
+  filter(as.numeric(GEOID) < 36067006104) %>% 
+  ggplot() + geom_sf(aes(fill = TotalME, color = TotalME)) + 
+  scale_fill_viridis_c(labels = scales::comma) +
+  scale_color_viridis_c(labels = scales::comma) +
+  geom_sf(data=MainCampus) +
+  geom_sf(data = SouthCampus) +theme_minimal() + 
+  theme(axis.text = element_blank()) +
+  labs(fill ="", color="" , caption = "*Census-tracts of Syracuse University's Main and South Campus")
+```
+
+
+
 
 

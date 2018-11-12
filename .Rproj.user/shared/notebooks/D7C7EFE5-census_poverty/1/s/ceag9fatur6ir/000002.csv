@@ -1,0 +1,9 @@
+"0","ggplot() + geom_sf(data = transpo_tracts, "
+"0","                   aes(fill = percent_pub_transport)) +"
+"0","  geom_sf(data = streets, size = .25) +"
+"0","  scale_fill_viridis_c(option = ""magma"", labels=scales::percent) + "
+"0","  guides(fill=guide_legend(title=""% of residents \nutilizing public transportation"")) +"
+"0","  theme_map()"
+"2","Error in geom_sf(data = transpo_tracts, aes(fill = percent_pub_transport)) : 
+  object 'transpo_tracts' not found
+"
